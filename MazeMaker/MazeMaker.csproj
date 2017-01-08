@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GAMazeSolver.cs" />
     <Compile Include="Maze.cs" />
     <Compile Include="MazeSolverChromosome.cs" />
     <Compile Include="MazeWalker.cs" />

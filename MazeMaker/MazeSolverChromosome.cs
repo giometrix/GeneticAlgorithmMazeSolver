@@ -7,7 +7,7 @@
 	[Serializable]
 	public class MazeSolverChromosome : ChromosomeBase
 	{
-		static Random _random = new Random();
+		private static readonly Random Random = new Random();
 
 		public MazeSolverChromosome(int length)
 			: base(length)
@@ -18,7 +18,7 @@
 			}
 		}
 
-		public MazeSolverChromosome(string chromosome)
+		public MazeSolverChromosome(string chromosome)	
 			: base(chromosome.Length / 2)
 		{
 			for (int i = 0; i < chromosome.Length / 2; i += 2)
@@ -34,7 +34,7 @@
 
 		public override Gene GenerateGene(int geneIndex)
 		{
-			return new Gene(_random.Next(0, 2).ToString() + _random.Next(0, 2).ToString());
+			return new Gene(Random.Next(0, 2).ToString() + Random.Next(0, 2).ToString());
 		}
 	}
 }

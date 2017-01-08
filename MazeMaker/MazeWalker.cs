@@ -10,14 +10,14 @@
 	public class MazeWalker
 	{
 
-		private readonly Gene[] _instructions;
+		private readonly Gene[] instructions;
 
-		private readonly Maze _maze;
+		private readonly Maze maze;
 
 		public MazeWalker(Maze maze, Gene[] instructions)
 		{
-			this._maze = maze;
-			this._instructions = instructions;
+			this.maze = maze;
+			this.instructions = instructions;
 		}
 
 		public static Gene[] GenerateRandomInstructions(int length)
@@ -52,49 +52,49 @@
 		{
 			int steps = 0;
 			repeatedSteps = 0;
-			var coord = this._maze.Start;
+			var coord = this.maze.Start;
 			var prevcoord = coord;
 			var walked = new Dictionary<Maze.Coordinates,int>();
 			closestDistanceToEnd = int.MaxValue;
 			
-			for (int i = 0; i < this._instructions.Length; i++)
+			for (int i = 0; i < this.instructions.Length; i++)
 			{
 				steps++;
 
-				var instruction = this._instructions[i].Value as string;
+				var instruction = this.instructions[i].Value as string;
 
 				coord = this.ExecuteInstruction(instruction, coord);
 
-				if (this._maze[coord.X, coord.Y] == Maze.State.Closed)
+				if (this.maze[coord.X, coord.Y] == Maze.State.Closed)
 				{
 					coord = prevcoord;
 				}
 
-				if (this._maze[coord.X, coord.Y] == Maze.State.Walked || this._maze[coord.X, coord.Y] == Maze.State.MultiWalked)
+				if (this.maze[coord.X, coord.Y] == Maze.State.Walked || this.maze[coord.X, coord.Y] == Maze.State.MultiWalked)
 				{
-					if (this._maze[coord.X, coord.Y] == Maze.State.Walked)
+					if (this.maze[coord.X, coord.Y] == Maze.State.Walked)
 					{
-						this._maze[coord.X, coord.Y] = Maze.State.MultiWalked;
+						this.maze[coord.X, coord.Y] = Maze.State.MultiWalked;
 						
 					}
 					walked[coord]++;
 
 				}
 
-				if (this._maze[coord.X, coord.Y] == Maze.State.Open)
+				if (this.maze[coord.X, coord.Y] == Maze.State.Open)
 				{
-					this._maze[coord.X, coord.Y] = Maze.State.Walked;
+					this.maze[coord.X, coord.Y] = Maze.State.Walked;
 					walked[coord] = 0;
 				}
 
-				if (coord == this._maze.End)
+				if (coord == this.maze.End)
 				{
 					return steps;
 				}
 
 				prevcoord = coord;
 
-				var distance = (int)Math.Sqrt(Math.Pow(this._maze.End.X - coord.X, 2) + Math.Pow(this._maze.End.Y - coord.Y, 2));
+				var distance = (int)Math.Sqrt(Math.Pow(this.maze.End.X - coord.X, 2) + Math.Pow(this.maze.End.Y - coord.Y, 2));
 				if (distance < closestDistanceToEnd)
 				{
 					closestDistanceToEnd = distance;
@@ -109,16 +109,16 @@
 			switch (instruction)
 			{
 				case "00":
-					coord = this._maze.MoveUp(coord);
+					coord = this.maze.MoveUp(coord);
 					break;
 				case "01":
-					coord = this._maze.MoveLeft(coord);
+					coord = this.maze.MoveLeft(coord);
 					break;
 				case "10":
-					coord = this._maze.MoveDown(coord);
+					coord = this.maze.MoveDown(coord);
 					break;
 				case "11":
-					coord = this._maze.MoveRight(coord);
+					coord = this.maze.MoveRight(coord);
 					break;
 			}
 			return coord;
