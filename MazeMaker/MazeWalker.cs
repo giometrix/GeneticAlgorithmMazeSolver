@@ -5,57 +5,63 @@
 	using System.Linq;
 	using System.Text;
 
+	using GeneticSharp.Domain.Chromosomes;
+
 	public class MazeWalker
 	{
-		private readonly string _instructions;
+
+		private readonly Gene[] _instructions;
 
 		private readonly Maze _maze;
 
-		public MazeWalker(Maze maze, string instructions)
+		public MazeWalker(Maze maze, Gene[] instructions)
 		{
 			this._maze = maze;
 			this._instructions = instructions;
 		}
 
-		public static string GenerateRandomInstructions(int length)
+		public static Gene[] GenerateRandomInstructions(int length)
 		{
-			var instructions = new StringBuilder(length * 2);
+			var instructions = new Gene[length];
+
 			var rand = new Random();
 			for (int i = 0; i < length; i++)
 			{
 				switch (rand.Next(0, 4))
 				{
 					case 0:
-						instructions.Append("00");
+						instructions[i] = new Gene("00");
 						break;
 					case 1:
-						instructions.Append("01");
+						instructions[i] = new Gene("01");
 						break;
 					case 2:
-						instructions.Append("10");
+						instructions[i] = new Gene("10");
 						break;
 					case 3:
-						instructions.Append("11");
+						instructions[i] = new Gene("11");
 						break;
 				}
 			}
 
-			return instructions.ToString();
+			return instructions;
 		}
 
 
-		public int Walk(out int repeatedSteps)
+		public int Walk(out int repeatedSteps, out int closestDistanceToEnd)
 		{
 			int steps = 0;
 			repeatedSteps = 0;
 			var coord = this._maze.Start;
 			var prevcoord = coord;
 			var walked = new Dictionary<Maze.Coordinates,int>();
-			for (int i = 0; i < this._instructions.Length; i += 2)
+			closestDistanceToEnd = int.MaxValue;
+			
+			for (int i = 0; i < this._instructions.Length; i++)
 			{
 				steps++;
 
-				var instruction = this._instructions.Substring(i, 2);
+				var instruction = this._instructions[i].Value as string;
 
 				coord = this.ExecuteInstruction(instruction, coord);
 
@@ -87,6 +93,12 @@
 				}
 
 				prevcoord = coord;
+
+				var distance = (int)Math.Sqrt(Math.Pow(this._maze.End.X - coord.X, 2) + Math.Pow(this._maze.End.Y - coord.Y, 2));
+				if (distance < closestDistanceToEnd)
+				{
+					closestDistanceToEnd = distance;
+				}
 			}
 			repeatedSteps = walked.ToList().Sum(x => x.Value);
 			return int.MaxValue;

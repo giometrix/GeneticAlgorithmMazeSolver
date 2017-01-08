@@ -40,9 +40,10 @@
 		private static Maze FillMazeStepsWalked(Maze m, IChromosome chromosome)
 		{
 			var winnerSteps = m.Copy();
-			var w = new MazeWalker(winnerSteps, string.Join(String.Empty, chromosome.GetGenes()));
+			var w = new MazeWalker(winnerSteps, chromosome.GetGenes());
 			int repeatedSteps;
-			w.Walk(out repeatedSteps);
+			int closest;
+			w.Walk(out repeatedSteps, out closest);
 			return winnerSteps;
 		}
 
@@ -106,8 +107,8 @@
 			ga.MutationProbability = mutationRate;
 			ga.Reinsertion = reinsertion;
 			ga.Termination = new OrTermination(
-				                 new FitnessStagnationTermination(300),
-				                 new TimeEvolvingTermination(TimeSpan.FromMinutes(10)));
+								 new FitnessStagnationTermination(300),
+								 new TimeEvolvingTermination(TimeSpan.FromMinutes(10)));
 			ga.CrossoverProbability = crossOverRate;
 			ga.TaskExecutor = new SmartThreadPoolTaskExecutor() {MinThreads = Environment.ProcessorCount, MaxThreads = Environment.ProcessorCount};
 			ga.GenerationRan += (sender, eventargs) =>

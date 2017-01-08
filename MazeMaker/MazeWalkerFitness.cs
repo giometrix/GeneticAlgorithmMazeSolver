@@ -19,9 +19,10 @@ namespace MazeMaker
 		public double Evaluate(IChromosome chromosome)
 		{
 			var m = _maze.Copy();
-			var walker = new MazeWalker(m,string.Join("",chromosome.GetGenes().Select(g=>g.Value as string)));
+			var walker = new MazeWalker(m,chromosome.GetGenes());
 			int repeatedSteps;
-			var steps = walker.Walk(out repeatedSteps);
+			int closest;
+			var steps = walker.Walk(out repeatedSteps, out closest);
 
 			if (steps < int.MaxValue)
 			{
@@ -36,8 +37,7 @@ namespace MazeMaker
 
 				steps -= (this._maze.Height * this._maze.Width)*50; //prevent overflow
 				var open = 0;
-				double closest = int.MaxValue;
-
+				
 				for (int x = 0; x < this._maze.Width; x++)
 				{
 					for (int y = 0; y < this._maze.Height; y++)
@@ -47,16 +47,7 @@ namespace MazeMaker
 							open++;
 
 						}	
-						else if (m[x, y] == Maze.State.Walked || m[x, y] == Maze.State.MultiWalked)
-						{
-							var distance = Math.Sqrt(Math.Pow(m.End.X - x, 2) + Math.Pow(m.End.Y - y, 2));
-							if (distance < closest)
-							{
-								closest = distance;
-							}
-						}
-
-
+						
 					}
 
 				}
