@@ -1,6 +1,6 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
-namespace MazeMaker
+namespace MazeSolver
 {
 	public class MazeWalkerFitness : IFitness
 	{

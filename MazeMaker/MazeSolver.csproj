@@ -7,8 +7,8 @@
     <ProjectGuid>{03C0F8E7-6F0E-4DF4-8F45-E8FC3B19A50D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MazeMaker</RootNamespace>
-    <AssemblyName>MazeMaker</AssemblyName>
+    <RootNamespace>MazeSolver</RootNamespace>
+    <AssemblyName>MazeSolver</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

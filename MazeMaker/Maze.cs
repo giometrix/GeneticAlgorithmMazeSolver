@@ -1,4 +1,4 @@
-﻿namespace MazeMaker
+﻿namespace MazeSolver
 {
 	using System;
 	using System.Collections.Generic;
