@@ -21,9 +21,7 @@ namespace MazeMaker
 
 			if (steps < int.MaxValue)
 			{
-				// get rid of steps that occur after a solution is found
 				steps = steps + repeatedSteps;
-
 			}
 			else
 			{

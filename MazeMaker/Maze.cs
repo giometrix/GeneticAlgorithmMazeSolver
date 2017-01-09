@@ -18,7 +18,7 @@
 
 			this._maze = new State[width, height];
 			this.GenerateMaze();
-			for (int i = 0; i < 25; i++)
+			for (int i = 0; i < 15; i++)
 			{
 				this.GenerateMaze(true);
 			}
@@ -233,7 +233,7 @@
 					currDir = d;
 				}
 
-				if (lenInDir > 3)
+				if (lenInDir > 5)
 				{
 					d = (d + 1) % 4;
 					currDir = d;
