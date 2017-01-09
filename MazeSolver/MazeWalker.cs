@@ -3,19 +3,19 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using System.Text;
+	using System.Runtime.ExceptionServices;
 
 	using GeneticSharp.Domain.Chromosomes;
 
 	public class MazeWalker
 	{
-		public const string MoveUpInstruction = "00";
+		public const string MoveDownInstruction = "10";
 
 		public const string MoveLeftInstruction = "01";
 
-		public const string MoveDownInstruction = "10";
-
 		public const string MoveRightInstruction = "11";
+
+		public const string MoveUpInstruction = "00";
 
 		private readonly Gene[] instructions;
 
@@ -54,20 +54,32 @@
 			return instructions;
 		}
 
-
+		[HandleProcessCorruptedStateExceptions]
 		public int Walk(out int repeatedSteps, out int closestDistanceToEnd)
 		{
 			int steps = 0;
 			repeatedSteps = 0;
 			var coord = this.maze.Start;
 			var prevcoord = coord;
-			var walked = new Dictionary<Maze.Coordinates,int>();
+			var walked = new Dictionary<Maze.Coordinates, int>();
 			closestDistanceToEnd = int.MaxValue;
-			
-			for (int i = 0; i < this.instructions.Length; i++)
+
+			foreach (Gene gene in this.instructions)
 			{
 				steps++;
-				var instruction = this.instructions[i].Value as string;
+				string instruction;
+
+				try
+				{
+					instruction = gene.Value as string;
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex.Message);
+
+					// I keep; random memory corruption errors.  I'm not sure where they are coming from.
+					continue;
+				}
 
 				coord = this.ExecuteInstruction(instruction, coord);
 
@@ -81,10 +93,9 @@
 					if (this.maze[coord.X, coord.Y] == Maze.State.Walked)
 					{
 						this.maze[coord.X, coord.Y] = Maze.State.MultiWalked;
-						
 					}
-					walked[coord]++;
 
+					walked[coord]++;
 				}
 
 				if (this.maze[coord.X, coord.Y] == Maze.State.Open)
@@ -106,6 +117,7 @@
 					closestDistanceToEnd = distance;
 				}
 			}
+
 			repeatedSteps = walked.ToList().Sum(x => x.Value);
 			return int.MaxValue;
 		}
@@ -127,6 +139,7 @@
 					coord = this.maze.MoveRight(coord);
 					break;
 			}
+
 			return coord;
 		}
 	}

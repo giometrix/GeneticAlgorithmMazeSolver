@@ -44,42 +44,6 @@ namespace MazeSolver
 				steps += (open * 50) + ((int)closest * 2);
 			}
 
-			var contradictingSteps = 0;
-			for (int i = 1; i < genes.Length; i++)
-			{
-				var current = genes[i].Value as string;
-				var previous = genes[i].Value as string;
-
-				switch (previous)
-				{
-					case MazeWalker.MoveDownInstruction:
-						if (current == MazeWalker.MoveUpInstruction)
-						{
-							contradictingSteps++;
-						}
-						break;
-					case MazeWalker.MoveUpInstruction:
-						if (current == MazeWalker.MoveDownInstruction)
-						{
-							contradictingSteps++;
-						}
-						break;
-					case MazeWalker.MoveLeftInstruction:
-						if (current == MazeWalker.MoveRightInstruction)
-						{
-							contradictingSteps++;
-						}
-						break;
-					case MazeWalker.MoveRightInstruction:
-						if (current == MazeWalker.MoveLeftInstruction)
-						{
-							contradictingSteps++;
-						}
-						break;
-				}
-			}
-			steps += contradictingSteps * 5;
-
 			return -(steps);
 		}
 	}
