@@ -218,8 +218,8 @@
 						var height = this._random.Next((int)(this.Height * 0.2f), (int)(this.Height * 0.9f));
 						g.DrawRectangle(openPen,origin.X, origin.Y, width, height);
 					}
-					image.Save("test.png", ImageFormat.Png);
-					//get all of the open coordinates
+
+					// get all of the open coordinates
 					var openCoord = new List<Coordinates>(this.Width * this.Height);
 					
 					for (int x = 0; x < this.Width; x++)

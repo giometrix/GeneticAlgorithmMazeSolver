@@ -9,6 +9,13 @@
 
 	public class MazeWalker
 	{
+		public const string MoveUpInstruction = "00";
+
+		public const string MoveLeftInstruction = "01";
+
+		public const string MoveDownInstruction = "10";
+
+		public const string MoveRightInstruction = "11";
 
 		private readonly Gene[] instructions;
 
@@ -30,16 +37,16 @@
 				switch (rand.Next(0, 4))
 				{
 					case 0:
-						instructions[i] = new Gene("00");
+						instructions[i] = new Gene(MoveUpInstruction);
 						break;
 					case 1:
-						instructions[i] = new Gene("01");
+						instructions[i] = new Gene(MoveLeftInstruction);
 						break;
 					case 2:
-						instructions[i] = new Gene("10");
+						instructions[i] = new Gene(MoveDownInstruction);
 						break;
 					case 3:
-						instructions[i] = new Gene("11");
+						instructions[i] = new Gene(MoveRightInstruction);
 						break;
 				}
 			}
@@ -108,16 +115,16 @@
 		{
 			switch (instruction)
 			{
-				case "00":
+				case MoveUpInstruction:
 					coord = this.maze.MoveUp(coord);
 					break;
-				case "01":
+				case MoveLeftInstruction:
 					coord = this.maze.MoveLeft(coord);
 					break;
-				case "10":
+				case MoveDownInstruction:
 					coord = this.maze.MoveDown(coord);
 					break;
-				case "11":
+				case MoveRightInstruction:
 					coord = this.maze.MoveRight(coord);
 					break;
 			}

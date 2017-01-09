@@ -14,7 +14,8 @@ namespace MazeSolver
 		public double Evaluate(IChromosome chromosome)
 		{
 			var m = this.maze.Copy();
-			var walker = new MazeWalker(m,chromosome.GetGenes());
+			var genes = chromosome.GetGenes();
+			var walker = new MazeWalker(m, genes);
 			int repeatedSteps;
 			int closest;
 			var steps = walker.Walk(out repeatedSteps, out closest);
