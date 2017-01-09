@@ -67,7 +67,6 @@
 			for (int i = 0; i < this.instructions.Length; i++)
 			{
 				steps++;
-
 				var instruction = this.instructions[i].Value as string;
 
 				coord = this.ExecuteInstruction(instruction, coord);

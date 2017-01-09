@@ -25,10 +25,10 @@
 		}
 
 		public Maze(string filename)
-		{
-			this._maze = new State[this.Width, this.Height];
+		{	
 			using (var image = new Bitmap(filename))
 			{
+				this._maze = new State[image.Width, image.Height];
 				this.FillMaze(image);
 			}
 		}
