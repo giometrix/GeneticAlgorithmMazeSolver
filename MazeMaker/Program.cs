@@ -15,6 +15,7 @@
 			string mazePath = default(string);
 			bool generateUpdateImages = default(bool);
 			int imageUpdateFrequency = default(int);
+			bool animate = default(bool);
 			commandLineParser.WithParsed(
 				p =>
 					{
@@ -23,6 +24,7 @@
 						runtime = p.MaxRunTimeInSeconds;
 						generateUpdateImages = p.GenerateUpdateImages;
 						imageUpdateFrequency = p.ImageUpdateFrequency;
+						animate = p.Animate;
 					});
 
 			commandLineParser.WithNotParsed(
@@ -42,18 +44,21 @@
 			Maze m;
 			m = mazePath.Length == 0 ? new Maze(100, 100) : new Maze(mazePath);
 
-			var solver = new GAMazeSolver(stagnationThreshold: stagnation, maxRunTimeInSeconds: runtime);
+			var solver = new GAMazeSolver(stagnationThreshold: stagnation, maxRunTimeInSeconds: runtime, animate:animate);
 			solver.Solve(m);
 		}
 
 		class Options
 		{
-			[Option('u', "generate-update-images", HelpText = "Generate update images (default true)", Required = false)]
-			public bool GenerateUpdateImages { get; set; } = true;
+			[Option('u', "generate-update-images", HelpText = "Generate update images", Required = false)]
+			public bool GenerateUpdateImages { get; set; }
 
 			[Option('q', "image-update-frequency",
 				 HelpText = "How often update images are generated (default every 500 generations)", Required = false)]
 			public int ImageUpdateFrequency { get; set; } = 500;
+
+			[Option('a', "animate", HelpText = "Creates an animated gif", Required = false)]
+			public bool Animate { get; set; }
 
 			[Option('r', "max-runtime",
 				 HelpText = "Max Runtime (In Seconds) - Stop running after this amount of time elapses (default 600)",

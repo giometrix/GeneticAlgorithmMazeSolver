@@ -54,6 +54,10 @@
       <HintPath>..\packages\GeneticSharp.1.0.100\lib\net35\GeneticSharp.Infrastructure.Threading.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Gifed, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gifed.1.0.3\lib\Gifed.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="HelperSharp, Version=1.0.5560.27038, Culture=neutral, PublicKeyToken=3d44152485e1a4e1, processorArchitecture=MSIL">
       <HintPath>..\packages\GeneticSharp.1.0.100\lib\net35\HelperSharp.dll</HintPath>
       <Private>True</Private>

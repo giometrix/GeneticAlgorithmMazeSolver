@@ -17,6 +17,8 @@
 	using GeneticSharp.Domain.Terminations;
 	using GeneticSharp.Infrastructure.Threading;
 
+	using Gifed;
+
 	public class GAMazeSolver
 	{
 		private readonly int maxRunTimeInSeconds;
@@ -27,12 +29,22 @@
 
 		private readonly int updateImageFrequency;
 
-		public GAMazeSolver(int maxRunTimeInSeconds = 10*60, int stagnationThreshold = 300, bool generateUpdateImages = true, int updateImageFrequency = 500)
+		private readonly AnimatedGif gif;
+
+		private bool animate;
+
+		public GAMazeSolver(int maxRunTimeInSeconds = 10*60, int stagnationThreshold = 300, bool generateUpdateImages = true, int updateImageFrequency = 500, bool animate=true)
 		{
 			this.maxRunTimeInSeconds = maxRunTimeInSeconds;
 			this.stagnationThreshold = stagnationThreshold;
 			this.generateUpdateImages = generateUpdateImages;
 			this.updateImageFrequency = updateImageFrequency;
+			this.animate = animate;
+			if (animate)
+			{
+				this.gif = new AnimatedGif();
+			}
+
 		}
 		public void Solve(Maze maze)
 		{
@@ -95,6 +107,12 @@
 					{
 						serializer.Serialize(sw, best.GetGenes().Select(g => g.Value as string).ToArray());
 					}
+
+					if (this.animate)
+					{
+						File.Delete("output.gif");
+						this.gif.Save("output.gif");
+					}
 				};
 
 			ga.Start();
@@ -110,7 +128,7 @@
 			return winnerSteps;
 		}
 
-		private static void ImageDraw(Maze maze, string filename)
+		private void ImageDraw(Maze maze, string filename)
 		{
 			const int SCALE = 5;
 
@@ -139,6 +157,11 @@
 					g.Save();
 					File.Delete(filename);
 					image.Save(filename, ImageFormat.Png);
+
+					if (this.animate)
+					{
+						this.gif.AddFrame(new GifFrame(Image.FromFile(filename), 50));
+					}
 				}
 			}
 		}
