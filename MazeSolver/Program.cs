@@ -44,7 +44,7 @@
 			Maze m;
 			m = mazePath.Length == 0 ? new Maze(100, 100) : new Maze(mazePath);
 
-			var solver = new GAMazeSolver(stagnationThreshold: stagnation, maxRunTimeInSeconds: runtime, animate:animate);
+			var solver = new GAMazeSolver(stagnationThreshold: stagnation, maxRunTimeInSeconds: runtime, animate:animate, updateImageFrequency: imageUpdateFrequency);
 			solver.Solve(m);
 		}
 
