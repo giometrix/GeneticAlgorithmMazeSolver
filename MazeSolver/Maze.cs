@@ -3,9 +3,6 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Drawing;
-	using System.Drawing.Imaging;
-	using System.IO;
-	using System.Threading;
 
 	public class Maze
 	{
@@ -25,43 +22,11 @@
 		}
 
 		public Maze(string filename)
-		{	
+		{
 			using (var image = new Bitmap(filename))
 			{
 				this._maze = new State[image.Width, image.Height];
 				this.FillMaze(image);
-			}
-		}
-
-		private void FillMaze(Bitmap image)
-		{
-			this.Height = image.Height;
-			this.Width = image.Width;
-
-			for (int x = 0; x < this.Width; x++)
-			{
-				for (int y = 0; y < this.Height; y++)
-				{
-					var color = image.GetPixel(y, x);
-					if (color == Color.FromArgb(0, 0, 0))
-					{
-						this._maze[x, y] = State.Closed;
-					}
-					else if (color == Color.FromArgb(255, 255, 255))
-					{
-						this._maze[x, y] = State.Open;
-					}
-					else if (color.R == 255)
-					{
-						this._maze[x, y] = State.End;
-						this.End = new Coordinates(x, y);
-					}
-					else if (color.B == 255)
-					{
-						this._maze[x, y] = State.Start;
-						this.Start = new Coordinates(x, y);
-					}
-				}
 			}
 		}
 
@@ -175,32 +140,36 @@
 			}
 		}
 
-		private Coordinates FindStart()
+		private void FillMaze(Bitmap image)
 		{
-			int x, y;
-			int side = this._random.Next(0, 4); // top,left,bottom,right
-			if (side == 0)
-			{
-				x = this._random.Next(0, this.Width);
-				y = 0;
-			}
-			else if (side == 1)
-			{
-				x = 0;
-				y = this._random.Next(0, this.Height);
-			}
-			else if (side == 2)
-			{
-				x = this._random.Next(0, this.Width);
-				y = this.Height - 1;
-			}
-			else
-			{
-				x = this.Width - 1;
-				y = this._random.Next(0, this.Height);
-			}
+			this.Height = image.Height;
+			this.Width = image.Width;
 
-			return new Coordinates(x, y);
+			for (int x = 0; x < this.Width; x++)
+			{
+				for (int y = 0; y < this.Height; y++)
+				{
+					var color = image.GetPixel(y, x);
+					if (color == Color.FromArgb(0, 0, 0))
+					{
+						this._maze[x, y] = State.Closed;
+					}
+					else if (color == Color.FromArgb(255, 255, 255))
+					{
+						this._maze[x, y] = State.Open;
+					}
+					else if (color.R == 255)
+					{
+						this._maze[x, y] = State.End;
+						this.End = new Coordinates(x, y);
+					}
+					else if (color.B == 255)
+					{
+						this._maze[x, y] = State.Start;
+						this.Start = new Coordinates(x, y);
+					}
+				}
+			}
 		}
 
 		private void GenerateMaze()
@@ -216,12 +185,12 @@
 						var origin = new Coordinates(this._random.Next(0, this.Width), this._random.Next(0, this.Height));
 						var width = this._random.Next((int)(this.Width * 0.2f), (int)(this.Width * 0.9f));
 						var height = this._random.Next((int)(this.Height * 0.2f), (int)(this.Height * 0.9f));
-						g.DrawRectangle(openPen,origin.X, origin.Y, width, height);
+						g.DrawRectangle(openPen, origin.X, origin.Y, width, height);
 					}
 
 					// get all of the open coordinates
 					var openCoord = new List<Coordinates>(this.Width * this.Height);
-					
+
 					for (int x = 0; x < this.Width; x++)
 					{
 						for (int y = 0; y < this.Height; y++)
@@ -229,18 +198,19 @@
 							var c = image.GetPixel(x, y);
 							if (c.R == Color.White.R && c.G == Color.White.G && c.B == Color.White.B)
 							{
-								openCoord.Add(new Coordinates(x,y));
+								openCoord.Add(new Coordinates(x, y));
 							}
 						}
 					}
 
-					//randomly select a start and an end
+					// randomly select a start and an end
 					var start = openCoord[this._random.Next(0, openCoord.Count)];
 					var end = openCoord[this._random.Next(0, openCoord.Count)];
-					
+
 					image.SetPixel(start.X, start.Y, Color.Blue);
 					image.SetPixel(end.X, end.Y, Color.Red);
 				}
+
 				this.FillMaze(image);
 			}
 		}

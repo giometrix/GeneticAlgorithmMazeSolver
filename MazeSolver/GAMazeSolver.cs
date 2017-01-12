@@ -115,6 +115,11 @@
 					}
 				};
 
+			if (this.generateUpdateImages)
+			{
+				this.ImageDraw(maze, "gen0.png");
+			}
+			
 			ga.Start();
 		}
 
