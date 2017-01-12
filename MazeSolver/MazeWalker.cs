@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Drawing;
 	using System.Linq;
 	using System.Runtime.ExceptionServices;
 
@@ -61,7 +62,7 @@
 			repeatedSteps = 0;
 			var coord = this.maze.Start;
 			var prevcoord = coord;
-			var walked = new Dictionary<Maze.Coordinates, int>();
+			var walked = new Dictionary<Point, int>();
 			closestDistanceToEnd = int.MaxValue;
 
 			foreach (Gene gene in this.instructions)
@@ -122,7 +123,7 @@
 			return int.MaxValue;
 		}
 
-		private Maze.Coordinates ExecuteInstruction(string instruction, Maze.Coordinates coord)
+		private Point ExecuteInstruction(string instruction, Point coord)
 		{
 			switch (instruction)
 			{

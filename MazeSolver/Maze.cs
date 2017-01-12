@@ -30,7 +30,7 @@
 			}
 		}
 
-		public Maze(State[,] state, int height, int width, Coordinates start, Coordinates end)
+		public Maze(State[,] state, int height, int width, Point start, Point end)
 		{
 			this._maze = state;
 			this.Height = height;
@@ -57,11 +57,11 @@
 			MultiWalked = 5
 		}
 
-		public Coordinates End { get; private set; }
+		public Point End { get; private set; }
 
 		public int Height { get; private set; }
 
-		public Coordinates Start { get; private set; }
+		public Point Start { get; private set; }
 
 		public int Width { get; private set; }
 
@@ -92,7 +92,7 @@
 			return new Maze(array, this.Height, this.Width, this.Start, this.End);
 		}
 
-		public Coordinates MoveDown(Coordinates currentPosition)
+		public Point MoveDown(Point currentPosition)
 		{
 			if (currentPosition.Y >= this.Height - BUFFER)
 			{
@@ -100,11 +100,11 @@
 			}
 			else
 			{
-				return new Coordinates(currentPosition.X, currentPosition.Y + 1);
+				return new Point(currentPosition.X, currentPosition.Y + 1);
 			}
 		}
 
-		public Coordinates MoveLeft(Coordinates currentPosition)
+		public Point MoveLeft(Point currentPosition)
 		{
 			if (currentPosition.X <= BUFFER)
 			{
@@ -112,11 +112,11 @@
 			}
 			else
 			{
-				return new Coordinates(currentPosition.X - 1, currentPosition.Y);
+				return new Point(currentPosition.X - 1, currentPosition.Y);
 			}
 		}
 
-		public Coordinates MoveRight(Coordinates currentPosition)
+		public Point MoveRight(Point currentPosition)
 		{
 			if (currentPosition.X >= this.Width - BUFFER)
 			{
@@ -124,11 +124,11 @@
 			}
 			else
 			{
-				return new Coordinates(currentPosition.X + 1, currentPosition.Y);
+				return new Point(currentPosition.X + 1, currentPosition.Y);
 			}
 		}
 
-		public Coordinates MoveUp(Coordinates currentPosition)
+		public Point MoveUp(Point currentPosition)
 		{
 			if (currentPosition.Y <= BUFFER)
 			{
@@ -136,7 +136,7 @@
 			}
 			else
 			{
-				return new Coordinates(currentPosition.X, currentPosition.Y - 1);
+				return new Point(currentPosition.X, currentPosition.Y - 1);
 			}
 		}
 
@@ -161,12 +161,12 @@
 					else if (color.R == 255)
 					{
 						this._maze[x, y] = State.End;
-						this.End = new Coordinates(x, y);
+						this.End = new Point(x, y);
 					}
 					else if (color.B == 255)
 					{
 						this._maze[x, y] = State.Start;
-						this.Start = new Coordinates(x, y);
+						this.Start = new Point(x, y);
 					}
 				}
 			}
@@ -182,14 +182,14 @@
 					var openPen = Pens.White;
 					for (int i = 0; i < 15; i++)
 					{
-						var origin = new Coordinates(this._random.Next(0, this.Width), this._random.Next(0, this.Height));
+						var origin = new Point(this._random.Next(0, this.Width), this._random.Next(0, this.Height));
 						var width = this._random.Next((int)(this.Width * 0.2f), (int)(this.Width * 0.9f));
 						var height = this._random.Next((int)(this.Height * 0.2f), (int)(this.Height * 0.9f));
 						g.DrawRectangle(openPen, origin.X, origin.Y, width, height);
 					}
 
 					// get all of the open coordinates
-					var openCoord = new List<Coordinates>(this.Width * this.Height);
+					var openCoord = new List<Point>(this.Width * this.Height);
 
 					for (int x = 0; x < this.Width; x++)
 					{
@@ -198,7 +198,7 @@
 							var c = image.GetPixel(x, y);
 							if (c.R == Color.White.R && c.G == Color.White.G && c.B == Color.White.B)
 							{
-								openCoord.Add(new Coordinates(x, y));
+								openCoord.Add(new Point(x, y));
 							}
 						}
 					}
@@ -215,68 +215,6 @@
 			}
 		}
 
-		/// <summary>
-		/// Maze coordinates
-		/// </summary>
-		public struct Coordinates
-		{
-			/// <summary>
-			/// Initializes a new instance of the <see cref="Coordinates"/> struct.
-			/// </summary>
-			/// <param name="x">
-			/// The x coordinate.
-			/// </param>
-			/// <param name="y">
-			/// The y coordinate.
-			/// </param>
-			public Coordinates(int x, int y)
-			{
-				this.X = x;
-				this.Y = y;
-			}
 
-			/// <summary>
-			/// Gets the x coordinate.
-			/// </summary>
-			public int X { get; private set; }
-
-			/// <summary>
-			/// Gets the y coordinate.
-			/// </summary>
-			public int Y { get; private set; }
-
-			public static bool operator ==(Coordinates lhs, Coordinates rhs)
-			{
-				return lhs.X == rhs.X && lhs.Y == rhs.Y;
-			}
-
-			public static bool operator !=(Coordinates lhs, Coordinates rhs)
-			{
-				return !(lhs == rhs);
-			}
-
-			public bool Equals(Coordinates other)
-			{
-				return this.X == other.X && this.Y == other.Y;
-			}
-
-			public override bool Equals(object obj)
-			{
-				if (ReferenceEquals(null, obj))
-				{
-					return false;
-				}
-
-				return obj is Coordinates && this.Equals((Coordinates)obj);
-			}
-
-			public override int GetHashCode()
-			{
-				unchecked
-				{
-					return (this.X * 397) ^ this.Y;
-				}
-			}
-		}
 	}
 }
