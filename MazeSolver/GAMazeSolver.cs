@@ -150,12 +150,12 @@
 					{
 						for (int y = 0; y < maze.Height; y++)
 						{
-							if (maze[y, x] == Maze.State.Open) g.FillRectangle(openBrush, x * SCALE, y * SCALE, SCALE, SCALE);
-							if (maze[y, x] == Maze.State.Walked) g.FillRectangle(walkedBrush, x * SCALE, y * SCALE, SCALE, SCALE);
-							if (maze[y, x] == Maze.State.MultiWalked) g.FillRectangle(multiWalkedBrush, x * SCALE, y * SCALE, SCALE, SCALE);
-
-							if (maze[y, x] == Maze.State.Start) g.FillRectangle(new SolidBrush(Color.Blue), x * SCALE, y * SCALE, SCALE, SCALE);
-							if (maze[y, x] == Maze.State.End) g.FillRectangle(new SolidBrush(Color.Red), x * SCALE, y * SCALE, SCALE, SCALE);
+							if (maze[x, y] == Maze.State.Open) g.FillRectangle(openBrush, x * SCALE, y * SCALE, SCALE, SCALE);
+							if (maze[x, y] == Maze.State.Walked) g.FillRectangle(walkedBrush, x * SCALE, y * SCALE, SCALE, SCALE);
+							if (maze[x, y] == Maze.State.MultiWalked) g.FillRectangle(multiWalkedBrush, x * SCALE, y * SCALE, SCALE, SCALE);
+									 
+							if (maze[x, y] == Maze.State.Start) g.FillRectangle(new SolidBrush(Color.Blue), x * SCALE, y * SCALE, SCALE, SCALE);
+							if (maze[x, y] == Maze.State.End) g.FillRectangle(new SolidBrush(Color.Red), x * SCALE, y * SCALE, SCALE, SCALE);
 						}
 					}
 

@@ -149,7 +149,7 @@
 			{
 				for (int y = 0; y < this.Height; y++)
 				{
-					var color = image.GetPixel(y, x);
+					var color = image.GetPixel(x, y);
 					if (color == Color.FromArgb(0, 0, 0))
 					{
 						this._maze[x, y] = State.Closed;
